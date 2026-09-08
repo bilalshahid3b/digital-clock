@@ -2,31 +2,26 @@ let selectedTimezone = "Asia/Karachi";
 let is24Hour = false;
 let soundEnabled = false;
 let audioContext = null;
+let lastPlayedSecond = -1;
 
 const timezoneData = {
     "Asia/Karachi": {
-        name: "Pakistan Standard Time",
-        short: "PKT"
+        name: "Pakistan Standard Time"
     },
     "Europe/London": {
-        name: "British Time",
-        short: "GMT"
+        name: "British Time"
     },
     "America/New_York": {
-        name: "Eastern Time",
-        short: "ET"
+        name: "Eastern Time"
     },
     "Asia/Tokyo": {
-        name: "Japan Standard Time",
-        short: "JST"
+        name: "Japan Standard Time"
     },
     "Asia/Dubai": {
-        name: "Gulf Standard Time",
-        short: "GST"
+        name: "Gulf Standard Time"
     },
     "Australia/Sydney": {
-        name: "Australian Eastern Time",
-        short: "AET"
+        name: "Australian Eastern Time"
     }
 };
 
@@ -130,14 +125,21 @@ function updateClock() {
     timezoneLabel.textContent = timezoneData[selectedTimezone].name;
     timezoneValue.textContent = getTimezoneOffset();
 
-    if (soundEnabled && time.seconds !== 0) {
+    if (
+        soundEnabled &&
+        time.seconds !== lastPlayedSecond
+    ) {
+        lastPlayedSecond = time.seconds;
         playTick();
     }
 }
 
 function playTick() {
     if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        audioContext = new (
+            window.AudioContext ||
+            window.webkitAudioContext
+        )();
     }
 
     if (audioContext.state === "suspended") {
@@ -148,30 +150,42 @@ function playTick() {
     const gain = audioContext.createGain();
 
     oscillator.type = "sine";
-    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+    oscillator.frequency.setValueAtTime(
+        750,
+        audioContext.currentTime
+    );
 
-    gain.gain.setValueAtTime(0.035, audioContext.currentTime);
+    gain.gain.setValueAtTime(
+        0.025,
+        audioContext.currentTime
+    );
+
     gain.gain.exponentialRampToValueAtTime(
         0.001,
-        audioContext.currentTime + 0.06
+        audioContext.currentTime + 0.05
     );
 
     oscillator.connect(gain);
     gain.connect(audioContext.destination);
 
     oscillator.start();
-    oscillator.stop(audioContext.currentTime + 0.06);
+    oscillator.stop(
+        audioContext.currentTime + 0.05
+    );
 }
 
 timezoneSelect.addEventListener("change", function () {
     selectedTimezone = this.value;
+    lastPlayedSecond = -1;
     updateClock();
 });
 
 formatBtn.addEventListener("click", function () {
     is24Hour = !is24Hour;
 
-    formatBtn.textContent = is24Hour ? "24H" : "12H";
+    formatBtn.textContent = is24Hour
+        ? "24H"
+        : "12H";
 
     updateClock();
 });
@@ -184,14 +198,17 @@ soundBtn.addEventListener("click", function () {
         soundBtn.classList.add("active");
 
         if (!audioContext) {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            audioContext = new (
+                window.AudioContext ||
+                window.webkitAudioContext
+            )();
         }
 
         if (audioContext.state === "suspended") {
             audioContext.resume();
         }
 
-        playTick();
+        lastPlayedSecond = -1;
     } else {
         soundBtn.textContent = "🔇 OFF";
         soundBtn.classList.remove("active");
