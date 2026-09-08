@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <main class="clock-wrapper">
+
+        <section class="clock-card">
+
+            <div class="clock-header">
+                <div class="live-dot"></div>
+                <span>LIVE CLOCK</span>
+            </div>
+
+            <div class="clock-display">
+
+                <div class="time-box">
+                    <span id="hours">00</span>
+                    <small>HOURS</small>
+                </div>
+
+                <div class="separator">:</div>
+
+                <div class="time-box">
+                    <span id="minutes">00</span>
+                    <small>MINUTES</small>
+                </div>
+
+                <div class="separator">:</div>
+
+                <div class="time-box">
+                    <span id="seconds">00</span>
+                    <small>SECONDS</small>
+                </div>
+
+            </div>
+
+            <div class="period" id="period">AM</div>
+
+            <div class="line"></div>
+
+            <div class="date-section">
+                <div id="day">Monday</div>
+                <p id="date">January 1, 2026</p>
+            </div>
+
+            <div class="timezone-info">
+                <span id="timezoneLabel">Pakistan Standard Time</span>
+                <span id="timezoneValue">UTC +05:00</span>
+            </div>
+
+            <div class="controls">
+
+                <div class="control-box">
+                    <label for="timezoneSelect">TIME ZONE</label>
+
+                    <select id="timezoneSelect">
+                        <option value="Asia/Karachi">Pakistan</option>
+                        <option value="Europe/London">London</option>
+                        <option value="America/New_York">New York</option>
+                        <option value="Asia/Tokyo">Tokyo</option>
+                        <option value="Asia/Dubai">Dubai</option>
+                        <option value="Australia/Sydney">Sydney</option>
+                    </select>
+                </div>
+
+                <div class="control-box">
+                    <label>FORMAT</label>
+
+                    <button id="formatBtn" class="control-btn">
+                        12H
+                    </button>
+                </div>
+
+                <div class="control-box">
+                    <label>SOUND</label>
+
+                    <button id="soundBtn" class="control-btn sound-btn">
+                        🔇 OFF
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="footer">
+                <span>REAL-TIME</span>
+                <span class="footer-dot"></span>
+                <span>UPDATES EVERY SECOND</span>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="js/script.js"></script>
+
+</body>
+</html>
